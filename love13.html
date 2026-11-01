@@ -1,0 +1,632 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10091d">
+<title>Dear Someone Special ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100svh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: #10091d;
+    color: white;
+}
+
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+        radial-gradient(circle at 20% 20%, #52204e, transparent 45%),
+        radial-gradient(circle at 80% 80%, #39205e, transparent 45%),
+        linear-gradient(135deg, #10091d, #24112e, #130c24);
+}
+
+#particles {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.heart {
+    position: absolute;
+    bottom: -40px;
+    opacity: 0;
+    animation: rise linear infinite;
+    filter: drop-shadow(0 0 7px #ff69ad);
+    will-change: transform, opacity;
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(.5);
+        opacity: 0;
+    }
+    15% { opacity: .8; }
+    80% { opacity: .7; }
+    100% {
+        transform: translateY(-115vh) rotate(360deg) scale(1.4);
+        opacity: 0;
+    }
+}
+
+.glow {
+    position: fixed;
+    width: 280px;
+    height: 280px;
+    background: #ff4e9c;
+    filter: blur(130px);
+    opacity: .15;
+    top: 10%;
+    left: 40%;
+    pointer-events: none;
+}
+
+/* Main card */
+
+.main {
+    position: relative;
+    z-index: 2;
+    width: min(100%, 680px);
+    max-height: calc(100svh - 36px);
+    overflow-y: auto;
+    text-align: center;
+    padding: 30px 40px;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 28px;
+    background: rgba(255,255,255,.075);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 0 70px rgba(255,75,155,.12);
+    animation: enter 1.2s ease;
+}
+
+@keyframes enter {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.top-label {
+    color: #ff9ac5;
+    letter-spacing: 5px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(30px, 5vw, 48px);
+    margin: 15px 0;
+    background: linear-gradient(90deg, #fff, #ff8cbd, #d7b2ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.description {
+    color: #d7c3dc;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* Envelope */
+
+.envelope-area {
+    position: relative;
+    display: block;
+    width: 150px;
+    height: 120px;
+    margin: 22px auto 12px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    overflow: visible;
+    transition: transform .3s;
+}
+
+.envelope-area:hover {
+    transform: translateY(-5px);
+}
+
+.envelope {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    width: 140px;
+    height: 95px;
+    border-radius: 7px;
+    background: #e85b9e;
+    box-shadow: 0 10px 30px rgba(255,70,150,.3);
+}
+
+.envelope-letter {
+    position: absolute;
+    z-index: 2;
+    left: 14px;
+    bottom: 8px;
+    width: 112px;
+    height: 76px;
+    background: #fff3f8;
+    border-radius: 5px;
+    color: #d34c87;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .8s ease;
+}
+
+.envelope-flap {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 70px solid transparent;
+    border-right: 70px solid transparent;
+    border-top: 53px solid #ffafd0;
+    transform-origin: top;
+    transition: transform .7s ease;
+}
+
+.envelope-front {
+    position: absolute;
+    z-index: 4;
+    inset: 0;
+    background: linear-gradient(135deg, #ff9bc4, #db559b);
+    clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+    border-radius: 5px;
+}
+
+.envelope-area.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope-area.open .envelope-letter {
+    transform: translateY(-65px);
+}
+
+.click-text {
+    font-size: 12px;
+    color: #ffafd0;
+    letter-spacing: 2px;
+}
+
+/* Letter */
+
+#letter {
+    display: none;
+    margin-top: 20px;
+    animation: reveal .8s ease;
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.letter-box {
+    border: 1px solid rgba(255,170,210,.25);
+    border-radius: 18px;
+    padding: 22px;
+    background: rgba(255,255,255,.055);
+}
+
+.letter-title {
+    font-family: Georgia, serif;
+    font-size: 25px;
+    color: #ff9ac5;
+    margin-bottom: 15px;
+}
+
+.letter-text {
+    color: #eee0ee;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.question {
+    font-family: Georgia, serif;
+    font-size: 26px;
+    color: #ff9ac5;
+    margin-top: 20px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+button.answer-button {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: .3s;
+}
+
+.answer-button:hover {
+    transform: translateY(-4px) scale(1.05);
+}
+
+.answer-button:focus-visible,
+.envelope-area:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 5px;
+}
+
+.yes {
+    color: white;
+    background: linear-gradient(135deg, #ff4f9a, #d84fbc);
+    box-shadow: 0 5px 25px rgba(255,70,150,.3);
+}
+
+.no {
+    background: rgba(255,255,255,.12);
+    color: white;
+    border: 1px solid rgba(255,255,255,.2) !important;
+}
+
+#answer {
+    display: none;
+    color: #ffafd0;
+    font-size: 15px;
+    margin-top: 18px;
+    line-height: 1.7;
+}
+
+.footer {
+    margin-top: 23px;
+    color: #9f85a9;
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+/* Laptop */
+
+@media (max-height: 800px) and (min-width: 601px) {
+    .main {
+        padding: 18px 35px;
+    }
+
+    h1 {
+        margin: 8px 0;
+    }
+
+    .envelope-area {
+        margin: 10px auto 5px;
+        transform: scale(.85);
+    }
+
+    .envelope-area:hover {
+        transform: translateY(-4px) scale(.88);
+    }
+
+    .footer {
+        margin-top: 12px;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    body {
+        padding: 12px;
+    }
+
+    .main {
+        width: 100%;
+        max-height: calc(100svh - 24px);
+        padding: 23px 17px;
+        border-radius: 22px;
+    }
+
+    .top-label {
+        letter-spacing: 3px;
+    }
+
+    .letter-box {
+        padding: 16px;
+    }
+
+    .letter-text {
+        font-size: 13px;
+    }
+
+    .question {
+        font-size: 22px;
+    }
+
+    .footer {
+        margin-top: 18px;
+    }
+}
+
+/* Very short screens */
+
+@media (max-height: 550px) {
+    body {
+        align-items: flex-start;
+    }
+
+    .main {
+        margin: 5px auto;
+    }
+}
+
+/* Reduced motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+<div class="glow"></div>
+<div id="particles"></div>
+
+<main class="main">
+
+    <div class="top-label">✦ A little secret ✦</div>
+
+    <h1>A Thousand Hearts</h1>
+
+    <p class="description">
+        Some feelings are too special to keep inside...
+        <br>
+        So I made something just for you. ♡
+    </p>
+
+    <button
+        class="envelope-area"
+        id="envelope"
+        type="button"
+        aria-label="Open your secret love letter"
+        aria-expanded="false"
+        onclick="openLetter()">
+
+        <div class="envelope">
+            <div class="envelope-letter">💌</div>
+            <div class="envelope-flap"></div>
+            <div class="envelope-front"></div>
+        </div>
+
+    </button>
+
+    <div class="click-text" id="clickText">
+        CLICK THE ENVELOPE TO OPEN 💌
+    </div>
+
+    <section id="letter">
+
+        <div class="letter-box">
+
+            <div class="letter-title">
+                Dear Someone Special ♡
+            </div>
+
+            <div class="letter-text">
+                I don't know where to begin,
+                but I know I wanted to tell you this.
+
+                <br><br>
+
+                You have this special way of making
+                ordinary moments feel beautiful.
+
+                <br><br>
+
+                Maybe you don't realize it,
+                but you make me smile without
+                even trying.
+
+                <br><br>
+
+                I don't need perfect words.
+                I just want you to know that
+                you mean something special to me.
+
+                <br><br>
+
+                And today, I finally decided
+                to tell you how I feel. ❤️
+            </div>
+
+            <div class="question">
+                Can I be someone special to you? 🥺
+            </div>
+
+            <div class="buttons">
+
+                <button class="answer-button yes"
+                        type="button"
+                        onclick="yesAnswer()">
+                    YES 💗
+                </button>
+
+                <button class="answer-button no"
+                        type="button"
+                        onclick="noAnswer()">
+                    NO 🌷
+                </button>
+
+            </div>
+
+            <div id="answer" aria-live="polite"></div>
+
+        </div>
+
+    </section>
+
+    <div class="footer">
+        MADE WITH LOVE · JUST FOR YOU
+    </div>
+
+</main>
+
+<script>
+
+// Create 180 floating hearts
+const particleArea = document.getElementById("particles");
+
+const hearts = ["♡", "♥", "💗", "💕", "💖", "❤️"];
+
+for (let i = 0; i < 180; i++) {
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+
+    heart.textContent =
+        hearts[Math.floor(Math.random() * hearts.length)];
+
+    heart.style.left = Math.random() * 100 + "vw";
+
+    heart.style.fontSize =
+        (10 + Math.random() * 19) + "px";
+
+    heart.style.animationDuration =
+        (7 + Math.random() * 13) + "s";
+
+    heart.style.animationDelay =
+        (-Math.random() * 20) + "s";
+
+    particleArea.appendChild(heart);
+}
+
+// Open letter
+function openLetter() {
+
+    const letter = document.getElementById("letter");
+    const envelope = document.getElementById("envelope");
+    const clickText = document.getElementById("clickText");
+
+    if (letter.style.display === "block") return;
+
+    envelope.classList.add("open");
+    envelope.setAttribute("aria-expanded", "true");
+
+    letter.style.display = "block";
+
+    clickText.textContent = "A LITTLE MESSAGE FROM MY HEART ♡";
+
+    // Bring the letter into view on small screens
+    setTimeout(() => {
+        letter.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+    }, 300);
+}
+
+// Display response
+function showAnswer(message) {
+
+    const answer = document.getElementById("answer");
+
+    answer.style.display = "block";
+    answer.textContent = message;
+
+    answer.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+}
+
+// YES response
+function yesAnswer() {
+
+    showAnswer(
+        "YOU JUST MADE THIS MOMENT BEAUTIFUL! 🥹💗 " +
+        "Sending you a thousand hearts! ♡"
+    );
+
+    celebrate();
+}
+
+// NO response
+function noAnswer() {
+
+    showAnswer(
+        "Thank you for reading my little letter. " +
+        "I'll respect your feelings. 🌷"
+    );
+
+}
+
+// Heart celebration with automatic cleanup
+function celebrate() {
+
+    for (let i = 0; i < 45; i++) {
+
+        const heart = document.createElement("div");
+
+        heart.textContent = "💖";
+
+        heart.style.position = "fixed";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.bottom = "-40px";
+        heart.style.fontSize = "25px";
+        heart.style.zIndex = "100";
+        heart.style.pointerEvents = "none";
+
+        heart.style.animation =
+            "rise " + (3 + Math.random() * 3) +
+            "s linear forwards";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 6500);
+    }
+
+}
+
+</script>
+
+</body>
+</html>
